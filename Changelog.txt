@@ -1,0 +1,28 @@
+
+	Mikrotik Scripts Syntax Highlighter for Notepad++
+
+-----------------------------------------------------------------------
+	legend:      + add new,      * changed,      - removed
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	v1.2 (2018-11-16):
+
+	+ two new syntax highlight themes (Black Glow, Light Glow)
+
+-      -      -      -      -      -      -      -      -      -      -
+
+	v1.1 (2018-11-15):
+
+	+ update MikroTik database commands
+	+ automatic download of the Notepad++
+
+-      -      -      -      -      -      -      -      -      -      -
+
+	v1.0 (2018-11-14):
+
+	+ automatic 3-layer installation
+	+ manual import
+
+-----------------------------------------------------------------------
+
+	Created by truefriend-cz
