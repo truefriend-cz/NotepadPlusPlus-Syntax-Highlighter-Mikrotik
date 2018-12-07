@@ -2,8 +2,14 @@
 	Mikrotik Scripts Syntax Highlighter for Notepad++
 
 -----------------------------------------------------------------------
-	legend:      + add new,      * changed,      - removed
+	legend:         + add new,         * changed,         - removed
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	v1.3 (2018-12-07):
+
+	* Associating File Extensions methodology changed
+
+-      -      -      -      -      -      -      -      -      -      -
 
 	v1.2 (2018-11-16):
 
