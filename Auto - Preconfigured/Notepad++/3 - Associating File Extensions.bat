@@ -1,28 +1,33 @@
 @echo off
-rem --> Check for permissions
->nul 1>nul 2>nul "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+:checkPrivileges
+net file 1>nul 2>nul
+if '%errorlevel%' == '0' ( goto gotPrivileges ) else ( goto getPrivileges )
 
-rem --> If error flag set, we do not have admin.
-if "%errorlevel%" NEQ "0" (
-	echo Requesting administrative privileges...
-	ping.exe 127.0.0.1 -n 2 >nul 1>nul 2>nul
-	goto UACPrompt
-) else (
-	goto gotAdmin
-)
+:getPrivileges
+if '%1'=='ELEV' (shift & goto gotPrivileges)
+echo.
+echo.
+echo.     **************************************************
+echo.
+echo.          Invoking UAC for Privilege Escalation...
+echo.
+echo.     **************************************************
+echo.
+echo.
+setlocal DisableDelayedExpansion
+set "batchPath=%~0"
+setlocal EnableDelayedExpansion
+echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\OEgetPrivileges.vbs"
+echo UAC.ShellExecute "!batchPath!", "ELEV", "", "runas", 1 >> "%temp%\OEgetPrivileges.vbs"
+"%temp%\OEgetPrivileges.vbs"
+exit /B
 
-:UACPrompt
-echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-set params = %*:"="
-echo UAC.ShellExecute "cmd.exe", "/c %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs"
+echo Current path is %cd%
+echo Changing directory to the path of the current script
+cd %~dp0
+echo Current path is %cd%
 
-"%temp%\getadmin.vbs"
-del "%temp%\getadmin.vbs"
-exit /b
-
-:gotAdmin
-pushd "%cd%"
-cd /d "%~dp0"
+:gotPrivileges
 
 rem --> Start
 
@@ -41,7 +46,6 @@ if not defined OSbit (
 	ping.exe 127.0.0.1 -n 4 >nul 1>nul 2>nul
 	exit
 )
-
 
 echo Context Menu - New file items and removing others...
 reg.exe delete "HKEY_CLASSES_ROOT\.txt\ShellNew" /f>nul 1>nul 2>nul
@@ -69,10 +73,7 @@ set "defaultdata=%4"
 set "defaultdata=%defaultdata:~1,-1%"
 set "defaultcommand=%5"
 set "defaultcommand=%defaultcommand:~1,-1%"
-if "%OSbit%" NEQ "64" (
-	set "pathtoexe=%pathtoexe: (x86)=%"
-	set "pathtoicon=%pathtoicon: (x86)=%"
-)
+
 if "%pathtoicon%" EQU "" set "pathtoicon=%pathtoexe%,0"
 
 for %%f in ("%pathtoexe%") do (
